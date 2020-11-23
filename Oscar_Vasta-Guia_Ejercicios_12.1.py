@@ -18,6 +18,7 @@ d) Implementar el método union que recibe otro intervalo. Si los intervalos no 
     intervalo resultante de la unión entre ambos.
         **Si el período enviado no tiene continuidad con el 1º períod la funcion union() devuelve un ValueError alertándolo.**
 """
+
 # a)
 class Intervalo:
     # Atributos o propiedades
@@ -28,7 +29,10 @@ class Intervalo:
     # constructor
     def __init__(self, desde, hasta):
         # atributos de instancia
-        assert desde < hasta, "desde debe ser menor que hasta"
+        try:
+            assert desde < hasta, "desde debe ser menor que hasta"
+        except AssertionError as e:
+            print(e)
         self.desde = desde
         self.hasta = hasta
 # b)
@@ -39,41 +43,41 @@ class Intervalo:
         # [] ()
         # [(])
         # ([)]
-        if self.hasta > desde2 and self.hasta <= hasta2:
-            # [()] o ([)]
-            if self.desde <= self.desde2:
+        try:
+            if self.hasta > desde2 and self.hasta <= hasta2:
+                # [()] o ([)]
+                if self.desde <= desde2:
                 # ([)]
-                return desde2, self.hasta
+                    return desde2, self.hasta
+                else:
+                    # [()]
+                    return self.desde, self.hasta
             else:
-                # [()]
-                return self.desde, self.hasta
-        else:
-            # [] ()
-            # [(])
-            if self.desde > desde2 and self.desde <= hasta2:
+                # [] ()
                 # [(])
-                return self.desde, hasta2
-            else:
-                raise ValueError("No hay interseccion entre intervalos")
+                if self.desde > desde2 and self.desde <= hasta2:
+                    # [(])
+                    return self.desde, hasta2
+                else:
+                    raise ValueError("No hay interseccion entre intervalos")
+        except ValueError as e:
+            print(e)
 
 #----------------------------------------------------------------
 intervalo1=Intervalo(23654, 23789)
 intervalo2=Intervalo(0, 112)
 intervalo3=Intervalo(480, 498)
-intervalos=[intervalo1, intervalo2, intervalo3]
+intervalo4=Intervalo(500, 498)
+intervalos=[intervalo1, intervalo2, intervalo3, intervalo4]
 # prueba b9
 for interv in intervalos:
         print(interv.duracion())
 #prueba c)
 print(intervalo1.intersec(23500, 23700))
+print(intervalo2.intersec(-1, 120))
+print(intervalo3.intersec(490, 500))
+print(intervalo3.intersec(499, 600))
 
-"""
-esto me devuelve:
-135
-112
-18
-<__main__.intervalo object at 0x0078BAA8
-"""
 
 
 #------------------------ E.O.F. --------------------------------
