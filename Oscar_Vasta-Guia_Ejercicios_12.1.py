@@ -31,73 +31,49 @@ class Intervalo:
         assert desde < hasta, "desde debe ser menor que hasta"
         self.desde = desde
         self.hasta = hasta
-
-
-
 # b)
     def duracion(self):
         return self.hasta - self.desde
-
-"""
 # c)
-    def interseccion(self):
+    def intersec(self, desde2, hasta2):
         # [] ()
         # [(])
         # ([)]
-
-        if self.hasta1 > self.desde2 and self.hasta1 <= self.hasta2:
+        if self.hasta > desde2 and self.hasta <= hasta2:
             # [()] o ([)]
-            if self.desde1 <= self.desde2:
+            if self.desde <= self.desde2:
                 # ([)]
-                return Intervalo(self.desde2, self.hasta1)
+                return desde2, self.hasta
             else:
                 # [()]
-                return Intervalo(self.desde1, self.hasta1)
+                return self.desde, self.hasta
         else:
             # [] ()
             # [(])
-            if self.desde1 > self.desde2 and self.desde1 <= self.hasta2:
+            if self.desde > desde2 and self.desde <= hasta2:
                 # [(])
-                return Intervalo(self.desde1, self.hasta2)
+                return self.desde, hasta2
             else:
                 raise ValueError("No hay interseccion entre intervalos")
-
-# d)
-    def union(self):
-            # [] ()
-            # [(])
-            # ([)]
-            if self.hasta1 > self.desde2 and self.hasta1 <= self.hasta2:
-                # [()] o ([)]
-                if self.desde1 <= self.desde2:
-                    # ([)]
-                    return Intervalo(self.desde1, self.hasta2)
-                else:
-                    # [()]
-                    return Intervalo(self.desde2, self.hasta2)
-            else:
-                # [] ()
-                # [(])
-                if self.desde1 > self.desde2 and self.desde1 <= self.hasta2:
-                    # [(])
-                    return Intervalo(self.desde2, self.hasta1)
-                else:
-                    raise ValueError("No hay interseccion entre intervalos")
-"""
-
-
-
 
 #----------------------------------------------------------------
 intervalo1=Intervalo(23654, 23789)
 intervalo2=Intervalo(0, 112)
 intervalo3=Intervalo(480, 498)
 intervalos=[intervalo1, intervalo2, intervalo3]
-
+# prueba b9
 for interv in intervalos:
         print(interv.duracion())
+#prueba c)
+print(intervalo1.intersec(23500, 23700))
 
-
+"""
+esto me devuelve:
+135
+112
+18
+<__main__.intervalo object at 0x0078BAA8
+"""
 
 
 #------------------------ E.O.F. --------------------------------
