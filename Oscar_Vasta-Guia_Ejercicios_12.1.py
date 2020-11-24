@@ -39,7 +39,7 @@ class Intervalo:
     def duracion(self):
         return self.hasta - self.desde
 # c)
-    def intersec(self, desde2, hasta2):
+    def interseccion(self, desde2, hasta2):
         # [] ()
         # [(])
         # ([)]
@@ -62,22 +62,58 @@ class Intervalo:
                     raise ValueError("No hay interseccion entre intervalos")
         except ValueError as e:
             print(e)
+# d)
+    def union(self, desde2, hasta2):
+        # [] ()
+        # [(])
+        # ([)]
+        try:
+            if self.hasta > desde2 and self.hasta <= hasta2:
+                # [()] o ([)]
+                if self.desde <= desde2:
+                # ([)]
+                    return self.desde, hasta2
+                else:
+                    # [()]
+                    return desde2, hasta2
+            else:
+                # [] ()
+                # [(])
+                if self.desde > desde2 and self.desde <= hasta2:
+                    # [(])
+                    return desde2, self.hasta
+                else:
+                    raise ValueError("No hay interseccion entre intervalos")
+        except ValueError as e:
+            print(e)
 
 #----------------------------------------------------------------
+print("Carga y validacion de Intervalos")
 intervalo1=Intervalo(23654, 23789)
 intervalo2=Intervalo(0, 112)
 intervalo3=Intervalo(480, 498)
 intervalo4=Intervalo(500, 498)
 intervalos=[intervalo1, intervalo2, intervalo3, intervalo4]
-# prueba b9
+print('_'*80)
+# prueba b
+print("Duración:")
 for interv in intervalos:
         print(interv.duracion())
+print('_'*80)
 #prueba c)
-print(intervalo1.intersec(23500, 23700))
-print(intervalo2.intersec(-1, 120))
-print(intervalo3.intersec(490, 500))
-print(intervalo3.intersec(499, 600))
-
+print("Intersección:")
+print('(23500, 23700)', intervalo1.interseccion(23500, 23700))
+print('(-1, 120)', intervalo2.interseccion(-1, 120))
+print('(490, 500)', intervalo3.interseccion(490, 500))
+print('(499, 600)', intervalo3.interseccion(499, 600))
+print('_'*80)
+#prueba d)
+print("Union:")
+print('(23500, 23700)', intervalo1.union(23500, 23700))
+print('(-1, 120)', intervalo2.union(-1, 120))
+print('(490, 500)', intervalo3.union(490, 500))
+print('(499, 600)', intervalo3.union(499, 600))
+print('_'*80)
 
 
 #------------------------ E.O.F. --------------------------------
