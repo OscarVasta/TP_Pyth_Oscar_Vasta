@@ -15,24 +15,54 @@ d) Crear un método simplificar que modifica la fracción actual de forma que lo
 del dividendo y divisor sean los menores posibles.
 """
 class Fraccion:
-    dividendo=0
-    divisor=0
-    def __init__(self, dividendo, divisor):
-        self._dividendo = dividendo
-        self._divisor = divisor
+
+    def __init__(self, dividendo, divisor, entero=0):
+        self.dividendo = dividendo
+        self.divisor = divisor
 
     def __str__(self):
-        return "(%i/%i)" % (self._dividendo, self._divisor)
+        return "fracción:(%i/%i)" % (self.dividendo, self.divisor)
 
     def __add__(self, otra):
-        suma_dividendo = self.dividendo + otra.dividendo
-        suma_divisor = self.divisor + otra.divisor
-        return Fraccion(suma_dividendo, suma_divisor )
+        suma_dividendo = (self.dividendo * otra.divisor) + (otra.dividendo * self.divisor)
+        suma_divisor = self.divisor * otra.divisor
+        return Fraccion(suma_dividendo, suma_divisor)
+
+    def __sub__(self, otra):
+        resta_dividendo = (self.dividendo * otra.divisor) - (otra.dividendo * self.divisor)
+        resta_divisor = self.divisor * otra.divisor
+        return Fraccion(resta_dividendo, resta_divisor)
+
+    def __mul__(self, otra):
+        multiplica_dividendo = self.dividendo * otra.dividendo
+        multiplica_divisor = self.divisor * otra.divisor
+        return Fraccion(multiplica_dividendo, multiplica_divisor)
+
+    def simplificar(self):
+        if self.dividendo > self.divisor:
+            test = self.divisor
+        else:
+            test = self.dividendo
+        for i in range(1, test):
+            if self.dividendo % i == 0 and self.divisor % i ==0:
+                mcd = i
+            else:
+                entero = mcd
+                nuevodivisor = self.divisor / i
+                nuevodividendo = self.dividendo / i
+                return entero, nuevodivisor, nuevodividendo
+
+
+
 #---------------------------------------------------------
 cociente = Fraccion(50, 60)
-print(str(cociente))
+print('a) ',cociente)
 a = Fraccion(50, 60)
 b = Fraccion(20, 30)
-#c= a + b
-#print(str(c))
-print(a + b)
+c = a + b
+print('b) suma ',a,'+',b,'=', c, end='')
+
+d = a - b
+print ('c) resta',a,'-',b,'=', d,'   ( sin simplificación )')
+e = a * b
+print ('d) multiplica',a,'x',b,'=', e,'   ( sin simplificación )')
