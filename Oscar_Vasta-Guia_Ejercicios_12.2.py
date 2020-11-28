@@ -19,10 +19,13 @@ class Fraccion:
     def __init__(self, dividendo, divisor, entero=0):
         self.dividendo = dividendo
         self.divisor = divisor
+        self.entero = entero
 
     def __str__(self):
-        return "fracción:(%i/%i)" % (self.dividendo, self.divisor)
-
+        if self.entero > 0:
+            return "(%i %i/%i)" % (self.entero, self.dividendo, self.divisor)
+        else:
+            return "(%i/%i)" % ( self.dividendo, self.divisor)
     def __add__(self, otra):
         suma_dividendo = (self.dividendo * otra.divisor) + (otra.dividendo * self.divisor)
         suma_divisor = self.divisor * otra.divisor
@@ -48,9 +51,9 @@ class Fraccion:
                 mcd = i
             else:
                 entero = mcd
-                nuevodivisor = self.divisor / i
-                nuevodividendo = self.dividendo / i
-                return entero, nuevodivisor, nuevodividendo
+                nuevodivisor = self.divisor / mcd
+                nuevodividendo = self.dividendo / mcd
+                return Fraccion(nuevodividendo, nuevodivisor, entero)
 
 
 
@@ -60,9 +63,10 @@ print('a) ',cociente)
 a = Fraccion(50, 60)
 b = Fraccion(20, 30)
 c = a + b
-print('b) suma ',a,'+',b,'=', c, end='')
+print('b) suma ',a,'+',b,'=', c, '=', Fraccion.simplificar(c))
 
 d = a - b
-print ('c) resta',a,'-',b,'=', d,'   ( sin simplificación )')
+print ('c) resta',a,'-',b,'=', d, '=', Fraccion.simplificar(d))
 e = a * b
-print ('d) multiplica',a,'x',b,'=', e,'   ( sin simplificación )')
+print ('d) multiplica',a,'x',b,'=', e, '=', Fraccion.simplificar(e))
+#---------------------E.O.F.----------------------------------------
