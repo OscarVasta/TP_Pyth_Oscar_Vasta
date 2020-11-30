@@ -22,10 +22,18 @@ class Fraccion:
         self.entero = entero
 
     def __str__(self):
-        if self.entero > 0:
+        if self.dividendo == 0 and self.divisor == 0 and self.entero == 0:
+            return " "
+        if self.dividendo == 0 and self.divisor == 0:
+            return "(%i)" % (self.entero)
+        if self.dividendo == 0 and self.entero == 0:
+            return "0"
+        if abs(self.entero) > 1:
             return "(%i %i/%i)" % (self.entero, self.dividendo, self.divisor)
         else:
             return "(%i/%i)" % ( self.dividendo, self.divisor)
+
+
     def __add__(self, otra):
         suma_dividendo = (self.dividendo * otra.divisor) + (otra.dividendo * self.divisor)
         suma_divisor = self.divisor * otra.divisor
@@ -42,26 +50,34 @@ class Fraccion:
         return Fraccion(multiplica_dividendo, multiplica_divisor)
 
     def simplificar(self):
-        if self.dividendo > self.divisor:
-            test = self.divisor
+        if abs(self.divisor) > abs(self.dividendo):
+            test = abs(self.dividendo)
         else:
-            test = self.dividendo
-        for i in range(1, test):
-            if self.dividendo % i == 0 and self.divisor % i ==0:
+            test = abs(self.divisor)
+        for i in range(1, (test+1)):
+            if self.dividendo % i == 0 and self.divisor % i == 0:
                 mcd = i
             else:
-                entero = mcd
-                nuevodivisor = self.divisor / mcd
-                nuevodividendo = self.dividendo / mcd
-                return Fraccion(nuevodividendo, nuevodivisor, entero)
+                if self.dividendo % (i + 1) == 0 and self.divisor % (i + 1) == 0:
+                    mcd = (i + 1)
+                else:
+                    entero = mcd
+                    nuevodivisor = self.divisor / mcd
+                    nuevodividendo = self.dividendo / mcd
+                    if nuevodivisor == nuevodividendo:
+                        nuevodivisor = 0
+                        nuevodividendo = 0
+                    if nuevodividendo < 0:
+                        entero = mcd * (-1)
+                    return Fraccion(nuevodividendo, nuevodivisor, entero)
 
 
 
 #---------------------------------------------------------
-cociente = Fraccion(50, 60)
+cociente = Fraccion(5, 6)
 print('a) ',cociente)
-a = Fraccion(50, 60)
-b = Fraccion(20, 30)
+a = Fraccion(3, 6)
+b = Fraccion(20, 8)
 c = a + b
 print('b) suma ',a,'+',b,'=', c, '=', Fraccion.simplificar(c))
 
