@@ -56,12 +56,14 @@ class Caja:
     def quitar(self,otro):
         for i in otro:
             if self.arqueo.get(i) != None:
-                if self.arqueo[i] < otro[i]:
-                        raise ValueError('no hay sufiientes billetes de '+'"'+str(i)+'"'+' no permitida')
-                self.arqueo[i] -=            #si existe lo resta la cantidad de blilletes agregados
-
-
-        return Caja(self.arqueo)
+                try:
+                    if self.arqueo[i] < otro[i]:            # verifica si existen suficientes billetes de esa denominación para restar
+                        raise ValueError('no hay sufiientes billetes de '+'"'+str(i)+'"')
+                    else:
+                        self.arqueo[i] -= otro[i]            # si existe i la cantidad existentes > = a la cant. a restar, lo resta.
+                except ValueError as e:
+                        return str(e)                                     #
+            return Caja(self.arqueo)
 
 
 
@@ -79,15 +81,7 @@ print('_'* 80,'\n')
 d= c.quitar({50: 3, 100: 1})
 print(d)
 print('_'* 80,'\n')
+d= c.quitar({50: 2, 100: 1})
+print(d)
+print('_'* 80,'\n')
 #---------------------E.O.F.----------------------------------------
-#for i in masbilletes:
-#    print('buscando:',i, masbilletes[i])
-#    if xx.get(i) != None:
-#        print('existe:', i, xx[i], masbilletes[i])
-#        xx[i]+=masbilletes[i]
-#        print('ahora:',i, xx[i])
-#    else:
-#        print('no hay:', i, masbilletes[i])
-#        valor = xx.setdefault(i, masbilletes[i])
-#        print('alta:', i, xx[i])
-#print(xx)
