@@ -24,43 +24,70 @@ ValueError: No hay suficientes billetes de denominación "50"
 >>> str(c)
 'Caja {500: 6, 100: 6, 2: 5} total: 3610 pesos'
 
-
-billeper ={}
-billetes ={}
-billeper = {1: 0, 5: 0, 10: 0}
-a={1: 15, 2: 8}
-billetes = a
-print(len(billetes))
-for i in billetes:
-    if i in billeper:
-        print(i * billetes[i])
-    else:
-        print(i,"no existe esa denominación")
 """
-#define un diccionario con las denominaciones válidas solo para
-# validar de forma indexada , el 2º término del diccionario se deja en 0 por qu e no se usa
+                                                    #define un diccionario con las denominaciones válidas solo para
+                                                    # validar de forma indexada , el 2º término del diccionario se deja en 0 por qu e no se usa
 denominaciones={1: 0, 2: 0, 5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 0, 1000: 0}
 class Caja:
-    def __init__(self, arqueo):
-        #arqueo es un diccionario que contiene denominaciones y cantidad de billetes existentes en la caja
+    def __init__(self, arqueo):                     #arqueo es un diccionario que contiene denominaciones y cantidad de billetes existentes en la caja
         self.arqueo = arqueo
     def __str__(self):
-            #intenta verificar si la denominacion esta entre las denominaciones permitidas en el array "billeper
         totalcaja = 0
         for i in self.arqueo:
             try:
-                if i in denominaciones:
-                    totalcaja +=  i * self.arqueo[i]
-                else:
-                    raise ValueError('Denominación '+i+' no existe')
-            except  ValueError as e:
-                    return(e)
+                if i in denominaciones:             # verifica que la denominacion buscada este entre las denominaciones permitidas
+                    totalcaja +=  i * self.arqueo[i]# si esta suma la cantidad de billetes por la denominacion al total de caja
+                else:                               # si en la lista hay una denominacion no permitida la borra para que no la
+                    valor = self.arqueo.pop(i)      # sume y no la siga rechazando en póximas consultas y esto debe hacerlo
+                                                    # antes de lanzar el ValueError por que si no ,no lo hace
+                    raise ValueError('denominación '+'"'+str(i)+'"'+' no permitida')
+            except ValueError as e:
+                return str(e)
         return 'Caja '+str(self.arqueo)+' total: '+str(totalcaja)+' pesos'
+
+    def agregar(self,otro):
+        for i in otro:
+            if self.arqueo.get(i) != None:
+                self.arqueo[i] += otro[i]           #si existe le suma la cantidad de blilletes agregados
+            else:
+                valor = self.arqueo.setdefault(i, otro[i]) #si no esta se lo agrega, aunque podria ser una denominacion no
+        return Caja(self.arqueo)                           #permitida, pero al pasrlo por el __str__Caja, se ocupara de quitarlo
+
+    def quitar(self,otro):
+        for i in otro:
+            if self.arqueo.get(i) != None:
+                if self.arqueo[i] < otro[i]:
+                        raise ValueError('no hay sufiientes billetes de '+'"'+str(i)+'"'+' no permitida')
+                self.arqueo[i] -=            #si existe lo resta la cantidad de blilletes agregados
+
+
+        return Caja(self.arqueo)
+
 
 
 #------------------- PRUEBA ----------------------------------------
+xx={500: 6, 100: 7, 2: 4}
 c = Caja({500: 6, 100: 7, 2: 4})
 print(c)
 print('_'* 80,'\n')
-
+d = c.agregar({250: 2})
+print(d)
+print('_'* 80,'\n')
+d= c.agregar({50: 2, 2: 1})
+print(d)
+print('_'* 80,'\n')
+d= c.quitar({50: 3, 100: 1})
+print(d)
+print('_'* 80,'\n')
 #---------------------E.O.F.----------------------------------------
+#for i in masbilletes:
+#    print('buscando:',i, masbilletes[i])
+#    if xx.get(i) != None:
+#        print('existe:', i, xx[i], masbilletes[i])
+#        xx[i]+=masbilletes[i]
+#        print('ahora:',i, xx[i])
+#    else:
+#        print('no hay:', i, masbilletes[i])
+#        valor = xx.setdefault(i, masbilletes[i])
+#        print('alta:', i, xx[i])
+#print(xx)
