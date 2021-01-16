@@ -30,6 +30,10 @@ class listasimple:
         while aux != None:
             print (aux)
             aux = aux.sig
+            
+    def extend(self,lext):
+        ls.cola.sig=lext.cabeza
+
 #····································································································#
 #creamos 2 array con datos iniciales para la 1º lista simple
 nombres = ['Oscar', 'Graciela', 'Mecedes', 'Sara', 'Gise', 'Matias', 'Alexis', 'Ezequiel','Estanislao']
@@ -61,7 +65,7 @@ while(True):
     opc = input("Ingrese la Opción: ")
     opcion = opc.lower()
     if opcion == "u":
-        ls.cola.sig=ls1.cabeza
+        ls.extend(ls1)
         print("Y EL RESULTADO DE AGREGARLE LA OTRA LISTA A  LA LISTA EXISTENTE ES:")
         ls.show()
     elif opcion == "o":
