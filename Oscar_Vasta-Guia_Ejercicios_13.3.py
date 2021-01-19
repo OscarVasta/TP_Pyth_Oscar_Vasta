@@ -5,10 +5,10 @@ un elemento y remueve de la lista todas las apariciones del mismo, devolviendo l
 de elementos removidos. La lista debe ser recorrida una sola vez.
 """
 class Nodo:
-    def __init__(self, nombre=None, DNI=None, sig=None):
+    def __init__(self, nombre=None, DNI=None, siguiente=None):
         self.nombre = nombre
         self.DNI = DNI
-        self.sig = sig
+        self.siguiente = siguiente
     def __str__(self):
         return "%012s : %8d" %(self.nombre, self.DNI)
 #
@@ -21,7 +21,7 @@ class listasimple:
             self.cabeza = elemento
 
         if self.cola != None:
-            self.cola.sig = elemento
+            self.cola.siguiente = elemento
             self.cola = elemento
 
         self.cola = elemento
@@ -30,24 +30,45 @@ class listasimple:
         aux = self.cabeza
         while aux != None:
             print (aux)
-            aux = aux.sig
+            aux = aux.siguiente
 
     def extend(self,lext):
-        ls.cola.sig=lext.cabeza
+        ls.cola.siguiente=lext.cabeza
 
     def remover_todosnom(self, nombrerm):
-        indice = self.cabeza
-        next = self.cabeza.sig
+        actual = self.cabeza
+        siguiente = self.cabeza.siguiente
         c_borrados = 0
 
 
-        while indice != None:
-            if indice.nombre != nombrerm:
-                indice = indice.sig
+        while actual != None:
+            if actual.nombre != nombrerm:
+                actual = actual.siguiente
             else:
-                next = indice.sig
-                indice.sig = None
-                indice = next
+                siguiente = actual.siguiente
+                actual.siguiente = None
+                actual = siguiente
+                c_borrados += 1
+        return c_borrados
+    
+    def remover_todos(self, elemento):
+        anterior = None
+        actual = self.cabeza
+        c_borrados = 0
+
+        while actual != None:
+            if actual.nombre != elemento.nombre and actual.dni != elemento.dni:
+                anterior = actual
+                actual = actual.siguiente
+            else:  # lo borro de la lista
+                if anterior is None:  # entonces era la cabeza de la lista
+                    self.cabeza = actual.siguiente
+                if actual.siguiente is None:  # entonces era la cola de la lista
+                    if anterior is not None:
+                        anterior.siguiente = None
+                    self.cola = anterior  # si anterior es None la lista queda vacía
+                if anterior is not None:  # borro el nodo entrelazando el anterior con el siguiente
+                    anterior.siguiente = actual.siguiente
                 c_borrados += 1
         return c_borrados
 
