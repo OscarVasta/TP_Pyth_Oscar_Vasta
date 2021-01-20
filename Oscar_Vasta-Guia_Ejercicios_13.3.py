@@ -50,14 +50,13 @@ class listasimple:
                 actual = siguiente
                 c_borrados += 1
         return c_borrados
-    
+
     def remover_todos(self, elemento):
         anterior = None
         actual = self.cabeza
         c_borrados = 0
-
         while actual != None:
-            if actual.nombre != elemento.nombre and actual.dni != elemento.dni:
+            if actual.nombre != elemento:
                 anterior = actual
                 actual = actual.siguiente
             else:  # lo borro de la lista
@@ -70,6 +69,7 @@ class listasimple:
                 if anterior is not None:  # borro el nodo entrelazando el anterior con el siguiente
                     anterior.siguiente = actual.siguiente
                 c_borrados += 1
+                actual = actual.siguiente
         return c_borrados
 
 
@@ -109,7 +109,7 @@ while(True):
         ls.show()
     if opcion == "r":
         inombre=input("Ingrese nombre: ")
-        borrados = ls.remover_todosnom(inombre)
+        borrados = ls.remover_todos(inombre)
         print("Cantidad de registros borrados: ",borrados)
         ls.show()
     elif opcion == "o":
